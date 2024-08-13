@@ -1,9 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import Header from "./components/Header";
+import Body from "./components/Body";
 
-const heading= React.createElement("h1",{},[React.createElement("div",{id: "child"},"Hello world"),React.createElement("div",{},"what's app")]);
+const App=()=>{
+    return (
+        <div>
+            <Header/>
+            <Body/>
+            {/* <Restaurantcard/> */}
+        </div>
+    )
+}
 
-const jsxHeading=<h1>Hello JSX what's up</h1>
+const jsxHeading=<h1>Helgffddcfbvclo JSX what's up</h1>
 const root=ReactDOM.createRoot(document.getElementById("root"));
-root.render(heading);
+root.render(<App/>);
 // root.render(jsxHeading);
