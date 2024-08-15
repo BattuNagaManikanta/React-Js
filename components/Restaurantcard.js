@@ -1,7 +1,6 @@
 import { IMG_URL } from "../Utils/constants";
 
 const Restaurantcard=({restaurant})=>{
-    console.log(restaurant);
     
     return (
         <div className="res-card">
