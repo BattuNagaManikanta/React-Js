@@ -1,6 +1,7 @@
 import Restaurantcard from "./Restaurantcard";
 import { useState,useEffect } from "react";
 import { Shimmer } from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body=()=>{
 
@@ -17,7 +18,6 @@ const Body=()=>{
         const data2=await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.50330&lng=80.64650&collection=83637&tags=layout_CCS_Burger&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
         const resList1=await data1.json();
         const resList2=await data2.json();
-
         const filteredList1=resList1.data.cards.filter((card,index)=> index>2 ? true: false);
         const filteredList2=resList2.data.cards.filter((card,index)=> index>2 ? true: false);
         const merged=[...filteredList1, ...filteredList2];
@@ -59,7 +59,8 @@ const Body=()=>{
             </div>
             <div className="res-container">
                 {filterdList.map((restaurant)=>{
-                    return <Restaurantcard key={restaurant.card.card.info.id} restaurant={restaurant}/>
+                    console.log(restaurant.card.card.info.id);
+                    return <Link key={restaurant.card.card.info.id} to={"/restaurants/"+ restaurant.card.card.info.id}> <Restaurantcard restaurant={restaurant}/> </Link>
                 })}
             </div>
         </div>
