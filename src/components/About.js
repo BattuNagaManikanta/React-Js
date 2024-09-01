@@ -6,8 +6,6 @@ import UserClass from "./UserClass";
 class About extends React.Component{
 
     componentWillUnmount(){
-        console.log("Component unmounted");
-        
     }
 
     render(){

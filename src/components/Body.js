@@ -1,41 +1,32 @@
-import Restaurantcard from "./Restaurantcard";
-import { useState,useEffect } from "react";
+import Restaurantcard, { restaurantCardPromoted } from "./Restaurantcard";
+import { useState,useEffect, useContext } from "react";
 import { Shimmer } from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
+import useRestaurantCard from "../Utils/useRestaurantCard";
+import userContext from "../Utils/userContext";
 
 const Body=()=>{
-
-    const [resLists,setResLists]=useState([]);
     const [filterdList,setFilterdList]=useState([]);
     const [searchValue,setSearchValue]=useState("");
     const onlineStatus=useOnlineStatus();
+    const RestaurantCardPromoted=restaurantCardPromoted(Restaurantcard);
+    const resLists=useRestaurantCard();
+    const {loggedInUser,setUser}=useContext(userContext);
+    // console.log(loggedInUser,setUser);
+
     useEffect(()=>{
-        fetchData();
-    },[]);
-
-    async function fetchData() {
-        const data1=await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.50330&lng=80.64650&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
-        const data2=await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.50330&lng=80.64650&collection=83637&tags=layout_CCS_Burger&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
-        const resList1=await data1.json();
-        const resList2=await data2.json();
-        const filteredList1=resList1.data.cards.filter((card,index)=> index>2 ? true: false);
-        const filteredList2=resList2.data.cards.filter((card,index)=> index>2 ? true: false);
-        const merged=[...filteredList1, ...filteredList2];
-        console.log(merged);
-        
-        setResLists(merged);
-        setFilterdList(merged)
-        
-    }
+        setFilterdList(resLists);
+    },[resLists]);
       
+    
 
-    if(resLists.length ==0){
+    if(filterdList.length ==0){
         return (<Shimmer/>)
     }
-
+    
     if(onlineStatus==false){
-        console.log(onlineStatus);
+        // console.log(onlineStatus);
         
         return (
             <h1>Hey you are offline please check ypur internet connection</h1>
@@ -60,6 +51,10 @@ const Body=()=>{
                         
                     }}>Search</button>
                 </div>
+                <div>
+                    <input className="border border-black p-2" type="text" value={loggedInUser} onChange={(e)=>{
+                        setUser(e.target.value)}}></input>
+                </div>
                 {/* <input type="text" placeholder="Search here"/>Search */}
                 <button className="m-1 px-2 py-1 bg-gray-500 text-white" onClick={()=>{
                     let filteredList = resLists.filter((restaurant)=>{
@@ -72,8 +67,12 @@ const Body=()=>{
             </div>
             <div className="flex flex-wrap mx-20">
                 {filterdList.map((restaurant)=>{
-                    console.log(restaurant.card.card.info.id);
-                    return <Link key={restaurant.card.card.info.id} to={"/restaurants/"+ restaurant.card.card.info.id}> <Restaurantcard restaurant={restaurant}/> </Link>
+                    // console.log(restaurant.card.card.info.promoted);
+                    return <Link key={restaurant.card.card.info.id} to={"/restaurants/"+ restaurant.card.card.info.id}> 
+                    {
+                        restaurant?.card?.card?.info?.promoted ? <RestaurantCardPromoted restaurant={restaurant}/> : <Restaurantcard restaurant={restaurant}/>
+                    }
+                    </Link>
                 })}
             </div>
         </div>
