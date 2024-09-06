@@ -12,6 +12,8 @@ const Body=()=>{
     const onlineStatus=useOnlineStatus();
     const RestaurantCardPromoted=restaurantCardPromoted(Restaurantcard);
     const resLists=useRestaurantCard();
+    // console.log(resLists);
+    
     const {loggedInUser,setUser}=useContext(userContext);
     // console.log(loggedInUser,setUser);
 
@@ -39,16 +41,18 @@ const Body=()=>{
         <div className="mt-52">
             <div className="flex justify-around">
                 <div>
-                    <input className="border-2 border-black" type="text" placeholder="Search" onChange={(e)=>{
-                        console.log(e.target.value);
+                    <input data-testid="searchTab" value={searchValue} className="border-2 border-black" type="text" placeholder="Search" onChange={(e)=>{
+                        // console.log(e.target.value);
                         setSearchValue(e.target.value);
                     }}/>
                     <button className="m-1 px-2 py-1 bg-green-500 text-black" onClick={()=>{
                         let filteredList=resLists.filter((restaurant)=>{
+                            // console.log(resLists);
+                            // console.log(searchValue);
                             return restaurant.card.card.info.name.toLowerCase().includes(searchValue.toLowerCase());
                         })
+                        // console.log(filteredList);
                         setFilterdList(filteredList);
-                        
                     }}>Search</button>
                 </div>
                 <div>
@@ -66,9 +70,9 @@ const Body=()=>{
                 }}>Filter Restaurant</button>
             </div>
             <div className="flex flex-wrap mx-20">
-                {filterdList.map((restaurant)=>{
+                {filterdList.map((restaurant,index)=>{
                     // console.log(restaurant.card.card.info.promoted);
-                    return <Link key={restaurant.card.card.info.id} to={"/restaurants/"+ restaurant.card.card.info.id}> 
+                    return <Link key={index} to={"/restaurants/"+ restaurant.card.card.info.id}> 
                     {
                         restaurant?.card?.card?.info?.promoted ? <RestaurantCardPromoted restaurant={restaurant}/> : <Restaurantcard restaurant={restaurant}/>
                     }

@@ -15,7 +15,7 @@ const RestaurantMenu=()=>{
 
     const{ name, costForTwoMessage,cuisines,uniqueId}=resInfo?.cards[2]?.card?.card?.info;
 
-    const itemcards= (resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card?.itemCards) == undefined ? resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR.cards[3]?.card?.card?.itemCards : resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR.cards[2]?.card?.card?.itemCards;
+    // const itemcards= (resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card?.itemCards) == undefined ? resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR.cards[3]?.card?.card?.itemCards : resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR.cards[2]?.card?.card?.itemCards;
     
     const categories=resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c)=>c?.card?.card?.["@type"] == "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
     // console.log(resInfo);
@@ -36,7 +36,7 @@ const RestaurantMenu=()=>{
             {
                 // categories accordion
             }
-            <div className="my-7">
+            <div  className="my-7">
                 {
                     categories.map((category, index)=>{
                         return <RestaurantCategory data={category?.card?.card} setShowIndex={()=>{

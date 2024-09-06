@@ -16,7 +16,6 @@ it("should render Restaurant card component with Promoted label",()=>{
 
     render(<PromotedCard restaurant={MOCK_DATA2}/>);
     const promote=screen.getByText("Promoted");
-    console.log(promote);
     
     expect(promote).toBeInTheDocument();
 
